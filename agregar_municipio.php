@@ -7,13 +7,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_departamento = '50'; // Meta
     $id_municipio = $id_departamento . $codigo_municipio;
 
-    $sql = "INSERT INTO municipios (id_municipio, nombre, id_departamento) VALUES ('$id_municipio', '$nombre', '$id_departamento')";
-    
-    if ($conn->query($sql) === TRUE) {
+    $sql = "INSERT INTO municipios (id_municipio, nombre, id_departamento) VALUES (:id_municipio, :nombre, :id_departamento)";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id_municipio', $id_municipio, PDO::PARAM_STR);
+    $stmt->bindParam(':nombre', $nombre, PDO::PARAM_STR);
+    $stmt->bindParam(':id_departamento', $id_departamento, PDO::PARAM_STR);
+
+    if ($stmt->execute()) {
         echo "<script>alert('Municipio agregado con éxito'); window.location='index.php';</script>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->errorInfo()[2];
     }
 }
-$conn->close();
+
+$conn = null;
 ?>

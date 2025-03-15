@@ -85,21 +85,23 @@
                                         <?php
                                         include 'db/conexion.php';
                                         $buscar = isset($_GET['buscar_municipio']) ? $_GET['buscar_municipio'] : '';
-                                        $sql = "SELECT * FROM municipios WHERE id_municipio LIKE '%$buscar%' OR nombre LIKE '%$buscar%'";
-                                        $result = $conn->query($sql);
-                                        while ($row = $result->fetch_assoc()) {
+                                        $sql = "SELECT * FROM municipios WHERE id_municipio LIKE :buscar OR nombre LIKE :buscar";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->execute(['buscar' => "%$buscar%"]);
+
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             echo "<tr>
-                                                <td>{$row['id_municipio']}</td>
-                                                <td><a href='#' class='text-decoration-none detalle-municipio' data-id='{$row['id_municipio']}'>{$row['nombre']}</a></td>
-                                                <td>
-                                                    <a href='editar_municipio.php?id={$row['id_municipio']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                    <a href='eliminar_municipio.php?id={$row['id_municipio']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
-                                                </td>
-                                            </tr>";
+                <td>{$row['id_municipio']}</td>
+                <td><a href='#' class='text-decoration-none detalle-municipio' data-id='{$row['id_municipio']}'>{$row['nombre']}</a></td>
+                <td>
+                    <a href='editar_municipio.php?id={$row['id_municipio']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                    <a href='eliminar_municipio.php?id={$row['id_municipio']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
+                </td>
+            </tr>";
                                         }
-                                        $conn->close();
                                         ?>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -121,13 +123,15 @@
                                             <?php
                                             include 'db/conexion.php';
                                             $sql = "SELECT id_municipio, nombre FROM municipios";
-                                            $result = $conn->query($sql);
-                                            while ($row = $result->fetch_assoc()) {
+                                            $stmt = $conn->prepare($sql);
+                                            $stmt->execute();
+
+                                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                 echo "<option value='{$row['id_municipio']}'>{$row['nombre']}</option>";
                                             }
-                                            $conn->close();
                                             ?>
                                         </select>
+
                                     </div>
                                     <div class="mb-3">
                                         <label for="nombre_colegio" class="form-label">Nombre</label>
@@ -172,24 +176,26 @@
                                         include 'db/conexion.php';
                                         $buscar = isset($_GET['buscar_colegio']) ? $_GET['buscar_colegio'] : '';
                                         $sql = "SELECT c.id_colegio, c.nombre, m.nombre AS municipio 
-                                                FROM colegios c 
-                                                JOIN municipios m ON c.id_municipio = m.id_municipio 
-                                                WHERE c.id_colegio LIKE '%$buscar%' OR c.nombre LIKE '%$buscar%'";
-                                        $result = $conn->query($sql);
-                                        while ($row = $result->fetch_assoc()) {
+            FROM colegios c 
+            JOIN municipios m ON c.id_municipio = m.id_municipio 
+            WHERE c.id_colegio LIKE :buscar OR c.nombre LIKE :buscar";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->execute(['buscar' => "%$buscar%"]);
+
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             echo "<tr>
-                                                <td>{$row['id_colegio']}</td>
-                                                <td><a href='#' class='text-decoration-none detalle-colegio' data-id='{$row['id_colegio']}'>{$row['nombre']}</a></td>
-                                                <td>{$row['municipio']}</td>
-                                                <td>
-                                                    <a href='editar_colegio.php?id={$row['id_colegio']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                    <a href='eliminar_colegio.php?id={$row['id_colegio']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
-                                                </td>
-                                            </tr>";
+                <td>{$row['id_colegio']}</td>
+                <td><a href='#' class='text-decoration-none detalle-colegio' data-id='{$row['id_colegio']}'>{$row['nombre']}</a></td>
+                <td>{$row['municipio']}</td>
+                <td>
+                    <a href='editar_colegio.php?id={$row['id_colegio']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                    <a href='eliminar_colegio.php?id={$row['id_colegio']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
+                </td>
+            </tr>";
                                         }
-                                        $conn->close();
                                         ?>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>
@@ -211,13 +217,15 @@
                                             <?php
                                             include 'db/conexion.php';
                                             $sql = "SELECT id_colegio, nombre FROM colegios";
-                                            $result = $conn->query($sql);
-                                            while ($row = $result->fetch_assoc()) {
+                                            $stmt = $conn->prepare($sql);
+                                            $stmt->execute();
+
+                                            while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                                 echo "<option value='{$row['id_colegio']}'>{$row['nombre']}</option>";
                                             }
-                                            $conn->close();
                                             ?>
                                         </select>
+
                                     </div>
                                     <div class="mb-3">
                                         <label for="nombre_sede" class="form-label">Nombre</label>
@@ -262,24 +270,26 @@
                                         include 'db/conexion.php';
                                         $buscar = isset($_GET['buscar_sede']) ? $_GET['buscar_sede'] : '';
                                         $sql = "SELECT s.id_sede, s.nombre, c.nombre AS colegio 
-                                                FROM sedes s 
-                                                JOIN colegios c ON s.id_colegio = c.id_colegio 
-                                                WHERE s.id_sede LIKE '%$buscar%' OR s.nombre LIKE '%$buscar%'";
-                                        $result = $conn->query($sql);
-                                        while ($row = $result->fetch_assoc()) {
+            FROM sedes s 
+            JOIN colegios c ON s.id_colegio = c.id_colegio 
+            WHERE s.id_sede LIKE :buscar OR s.nombre LIKE :buscar";
+                                        $stmt = $conn->prepare($sql);
+                                        $stmt->execute(['buscar' => "%$buscar%"]);
+
+                                        while ($row = $stmt->fetch(PDO::FETCH_ASSOC)) {
                                             echo "<tr>
-                                                <td>{$row['id_sede']}</td>
-                                                <td><a href='#' class='text-decoration-none detalle-sede' data-id='{$row['id_sede']}'>{$row['nombre']}</a></td>
-                                                <td>{$row['colegio']}</td>
-                                                <td>
-                                                    <a href='editar_sede.php?id={$row['id_sede']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
-                                                    <a href='eliminar_sede.php?id={$row['id_sede']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
-                                                </td>
-                                            </tr>";
+                <td>{$row['id_sede']}</td>
+                <td><a href='#' class='text-decoration-none detalle-sede' data-id='{$row['id_sede']}'>{$row['nombre']}</a></td>
+                <td>{$row['colegio']}</td>
+                <td>
+                    <a href='editar_sede.php?id={$row['id_sede']}' class='btn btn-sm btn-warning'><i class='fas fa-edit'></i></a>
+                    <a href='eliminar_sede.php?id={$row['id_sede']}' class='btn btn-sm btn-danger' onclick='return confirm(\"¿Seguro?\");'><i class='fas fa-trash'></i></a>
+                </td>
+            </tr>";
                                         }
-                                        $conn->close();
                                         ?>
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>

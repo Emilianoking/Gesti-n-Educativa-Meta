@@ -1,21 +1,24 @@
 <?php
 include 'db/conexion.php';
+
 $id = $_GET['id'];
-$sql = "SELECT * FROM municipios WHERE id_municipio = '$id'";
-$result = $conn->query($sql);
-$row = $result->fetch_assoc();
+$sql = "SELECT * FROM municipios WHERE id_municipio = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$id]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre_municipio'];
-    $sql = "UPDATE municipios SET nombre = '$nombre' WHERE id_municipio = '$id'";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "UPDATE municipios SET nombre = ? WHERE id_municipio = ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt->execute([$nombre, $id])) {
         echo "<script>alert('Municipio actualizado'); window.location='index.php';</script>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $conn->errorInfo()[2];
     }
 }
-$conn->close();
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -30,7 +33,7 @@ $conn->close();
         <form action="" method="POST">
             <div class="mb-3">
                 <label for="nombre_municipio" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre_municipio" name="nombre_municipio" value="<?php echo $row['nombre']; ?>" required>
+                <input type="text" class="form-control" id="nombre_municipio" name="nombre_municipio" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="index.php" class="btn btn-secondary">Cancelar</a>

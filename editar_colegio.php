@@ -1,21 +1,25 @@
 <?php
 include 'db/conexion.php';
+
 $id = $_GET['id'];
-$sql = "SELECT * FROM colegios WHERE id_colegio = '$id'";
-$result = $conn->query($sql);
-$row = $result->fetch_assoc();
+$sql = "SELECT * FROM colegios WHERE id_colegio = ?";
+$stmt = $conn->prepare($sql);
+$stmt->execute([$id]);
+$row = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $nombre = $_POST['nombre_colegio'];
     $id_municipio = $_POST['id_municipio'];
-    $sql = "UPDATE colegios SET nombre = '$nombre', id_municipio = '$id_municipio' WHERE id_colegio = '$id'";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "UPDATE colegios SET nombre = ?, id_municipio = ? WHERE id_colegio = ?";
+    $stmt = $conn->prepare($sql);
+    if ($stmt->execute([$nombre, $id_municipio, $id])) {
         echo "<script>alert('Colegio actualizado'); window.location='index.php';</script>";
     } else {
-        echo "Error: " . $conn->error;
+        echo "Error: " . $conn->errorInfo()[2];
     }
 }
 ?>
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -33,18 +37,17 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <select class="form-select" id="id_municipio" name="id_municipio" required>
                     <?php
                     $sql_mun = "SELECT id_municipio, nombre FROM municipios";
-                    $result_mun = $conn->query($sql_mun);
-                    while ($mun = $result_mun->fetch_assoc()) {
+                    $stmt_mun = $conn->query($sql_mun);
+                    while ($mun = $stmt_mun->fetch(PDO::FETCH_ASSOC)) {
                         $selected = $mun['id_municipio'] == $row['id_municipio'] ? 'selected' : '';
                         echo "<option value='{$mun['id_municipio']}' $selected>{$mun['nombre']}</option>";
                     }
-                    $conn->close();
                     ?>
                 </select>
             </div>
             <div class="mb-3">
                 <label for="nombre_colegio" class="form-label">Nombre</label>
-                <input type="text" class="form-control" id="nombre_colegio" name="nombre_colegio" value="<?php echo $row['nombre']; ?>" required>
+                <input type="text" class="form-control" id="nombre_colegio" name="nombre_colegio" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
             <a href="index.php" class="btn btn-secondary">Cancelar</a>

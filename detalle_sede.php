@@ -6,9 +6,10 @@ $sql_sed = "SELECT s.id_sede, s.nombre AS sede, c.id_colegio, c.nombre AS colegi
             FROM sedes s 
             JOIN colegios c ON s.id_colegio = c.id_colegio 
             JOIN municipios m ON c.id_municipio = m.id_municipio 
-            WHERE s.id_sede = '$id'";
-$sed_result = $conn->query($sql_sed);
-$sed = $sed_result->fetch_assoc();
+            WHERE s.id_sede = ?";
+$stmt = $conn->prepare($sql_sed);
+$stmt->execute([$id]);
+$sed = $stmt->fetch(PDO::FETCH_ASSOC);
 
 echo "<h5>Detalles de la Sede</h5>";
 echo "<table class='table table-bordered'>
@@ -20,5 +21,5 @@ echo "<table class='table table-bordered'>
         <tr><th>Municipio</th><td>{$sed['municipio']}</td></tr>
       </table>";
 
-$conn->close();
+$conn = null;
 ?>

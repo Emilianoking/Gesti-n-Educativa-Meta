@@ -1,11 +1,19 @@
 <?php
 include 'db/conexion.php';
-$id = $_GET['id'];
-$sql = "DELETE FROM municipios WHERE id_municipio = '$id'";
-if ($conn->query($sql) === TRUE) {
-    echo "<script>alert('Municipio eliminado'); window.location='index.php';</script>";
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+
+    $sql = "DELETE FROM municipios WHERE id_municipio = :id";
+    $stmt = $conn->prepare($sql);
+    $stmt->bindParam(':id', $id, PDO::PARAM_INT);
+
+    if ($stmt->execute()) {
+        echo "<script>alert('Municipio eliminado'); window.location='index.php';</script>";
+    } else {
+        echo "Error: No se pudo eliminar el municipio.";
+    }
 } else {
-    echo "Error: " . $conn->error;
+    echo "Error: ID no válido.";
 }
-$conn->close();
 ?>

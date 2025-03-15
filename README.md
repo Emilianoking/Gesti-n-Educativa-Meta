@@ -1,6 +1,3 @@
-¡Entendido! Vamos a darle vida a ese README con un diseño más extenso, atractivo y lleno de iconos para que sea visualmente impactante y útil en GitHub. Este será un README más detallado, con secciones adicionales, emojis y un toque de estilo Markdown. Aquí va:
-
----
 
 # 📚 Gestión Educativa Meta
 

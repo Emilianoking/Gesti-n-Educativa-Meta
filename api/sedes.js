@@ -7,15 +7,12 @@ export default async function handler(req, res) {
         database: 'gestion_educativa_meta',
         password: 'KMQ0MTgEeVxqXAGHovLlUA',
         port: 26257,
-        ssl: {
-            rejectUnauthorized: true,
-        },
+        ssl: { rejectUnauthorized: true },
         connectionString: `postgresql://junca12:KMQ0MTgEeVxqXAGHovLlUA@svelte-vulture-7271.g8z.gcp-us-east1.cockroachlabs.cloud:26257/gestion_educativa_meta?sslmode=verify-full&options=--cluster%3Dsvelte-vulture-7271`,
     });
 
     try {
         const client = await pool.connect();
-
         let query = `
             SELECT s.id_sede, s.nombre, c.nombre AS colegio
             FROM sedes s
@@ -27,10 +24,8 @@ export default async function handler(req, res) {
             query += ' WHERE s.id_sede LIKE $1 OR s.nombre ILIKE $1';
             values.push(buscar);
         }
-
         const result = await client.query(query, values);
         const sedes = result.rows;
-
         client.release();
         res.status(200).json(sedes);
     } catch (error) {

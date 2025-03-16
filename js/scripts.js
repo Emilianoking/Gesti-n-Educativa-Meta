@@ -75,13 +75,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Función para cargar municipios en el select
 function cargarMunicipios() {
-    const selectMunicipios = document.getElementById('id_municipio'); // Cambiado de 'municipios' a 'id_municipio'
+    const selectMunicipios = document.getElementById('id_municipio');
     if (!selectMunicipios) {
         console.error('Elemento con ID "id_municipio" no encontrado');
         return;
     }
 
-    fetch('./api/municipios.php')
+    fetch('/api/municipios') // Actualizado de ./api/municipios.php a /api/municipios
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -121,7 +121,7 @@ function cargarTablaMunicipios() {
         return;
     }
 
-    fetch('./api/municipios.php')
+    fetch('/api/municipios') // Actualizado de ./api/municipios.php a /api/municipios
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -141,8 +141,8 @@ function cargarTablaMunicipios() {
                     <td>${municipio.id_municipio || ''}</td>
                     <td><a href="#" class="text-decoration-none detalle-municipio" data-id="${municipio.id_municipio || ''}">${municipio.nombre || ''}</a></td>
                     <td>
-                        <a href="editar_municipio.php?id=${municipio.id_municipio || ''}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="eliminar_municipio.php?id=${municipio.id_municipio || ''}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
+                        <a href="#" class="btn btn-sm btn-warning edit-municipio" data-id="${municipio.id_municipio || ''}"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-sm btn-danger delete-municipio" data-id="${municipio.id_municipio || ''}" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             `).join('');
@@ -151,13 +151,30 @@ function cargarTablaMunicipios() {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const id = this.getAttribute('data-id');
-                    fetch(`detalle_municipio.php?id=${id}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('detalleContenido').innerHTML = data;
-                            new bootstrap.Modal(document.getElementById('detalleModal')).show();
-                        })
-                        .catch(error => console.error('Error en detalle municipio:', error));
+                    // Temporalmente comentado hasta que se implemente el endpoint
+                    // fetch(`/api/detalle_municipio?id=${id}`)
+                    //     .then(response => response.text())
+                    //     .then(data => {
+                    //         document.getElementById('detalleContenido').innerHTML = data;
+                    //         new bootstrap.Modal(document.getElementById('detalleModal')).show();
+                    //     })
+                    //     .catch(error => console.error('Error en detalle municipio:', error));
+                    alert(`Detalles de municipio ${id} (pendiente de implementar)`);
+                });
+            });
+            // Agregar eventos para editar y eliminar (pendiente de endpoints)
+            document.querySelectorAll('.edit-municipio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Editar municipio ${id} (pendiente de implementar)`);
+                });
+            });
+            document.querySelectorAll('.delete-municipio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Eliminar municipio ${id} (pendiente de implementar)`);
                 });
             });
         })
@@ -169,13 +186,13 @@ function cargarTablaMunicipios() {
 
 // Función para cargar colegios en el select
 function cargarColegios() {
-    const selectColegios = document.getElementById('id_colegio'); // Cambiado de 'colegios' a 'id_colegio'
+    const selectColegios = document.getElementById('id_colegio');
     if (!selectColegios) {
         console.error('Elemento con ID "id_colegio" no encontrado');
         return;
     }
 
-    fetch('./api/colegios.php')
+    fetch('/api/colegios') // Actualizado de ./api/colegios.php a /api/colegios
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -215,7 +232,7 @@ function buscarMunicipios(buscar) {
         return;
     }
 
-    fetch(`./api/municipios.php?buscar=${encodeURIComponent(buscar)}`)
+    fetch(`/api/municipios?buscar=${encodeURIComponent(buscar)}`) // Actualizado de ./api/municipios.php a /api/municipios
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -235,8 +252,8 @@ function buscarMunicipios(buscar) {
                     <td>${municipio.id_municipio || ''}</td>
                     <td><a href="#" class="text-decoration-none detalle-municipio" data-id="${municipio.id_municipio || ''}">${municipio.nombre || ''}</a></td>
                     <td>
-                        <a href="editar_municipio.php?id=${municipio.id_municipio || ''}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="eliminar_municipio.php?id=${municipio.id_municipio || ''}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
+                        <a href="#" class="btn btn-sm btn-warning edit-municipio" data-id="${municipio.id_municipio || ''}"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-sm btn-danger delete-municipio" data-id="${municipio.id_municipio || ''}" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             `).join('');
@@ -245,13 +262,30 @@ function buscarMunicipios(buscar) {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const id = this.getAttribute('data-id');
-                    fetch(`detalle_municipio.php?id=${id}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('detalleContenido').innerHTML = data;
-                            new bootstrap.Modal(document.getElementById('detalleModal')).show();
-                        })
-                        .catch(error => console.error('Error en detalle municipio:', error));
+                    // Temporalmente comentado hasta que se implemente el endpoint
+                    // fetch(`/api/detalle_municipio?id=${id}`)
+                    //     .then(response => response.text())
+                    //     .then(data => {
+                    //         document.getElementById('detalleContenido').innerHTML = data;
+                    //         new bootstrap.Modal(document.getElementById('detalleModal')).show();
+                    //     })
+                    //     .catch(error => console.error('Error en detalle municipio:', error));
+                    alert(`Detalles de municipio ${id} (pendiente de implementar)`);
+                });
+            });
+            // Agregar eventos para editar y eliminar (pendiente de endpoints)
+            document.querySelectorAll('.edit-municipio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Editar municipio ${id} (pendiente de implementar)`);
+                });
+            });
+            document.querySelectorAll('.delete-municipio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Eliminar municipio ${id} (pendiente de implementar)`);
                 });
             });
         })
@@ -275,7 +309,7 @@ function buscarColegios(buscar) {
         return;
     }
 
-    fetch(`./api/colegios.php?buscar=${encodeURIComponent(buscar)}`)
+    fetch(`/api/colegios?buscar=${encodeURIComponent(buscar)}`) // Actualizado de ./api/colegios.php a /api/colegios
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -295,8 +329,8 @@ function buscarColegios(buscar) {
                     <td><a href="#" class="text-decoration-none detalle-colegio" data-id="${colegio.id_colegio || ''}">${colegio.nombre || ''}</a></td>
                     <td>${colegio.municipio || ''}</td>
                     <td>
-                        <a href="editar_colegio.php?id=${colegio.id_colegio || ''}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="eliminar_colegio.php?id=${colegio.id_colegio || ''}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
+                        <a href="#" class="btn btn-sm btn-warning edit-colegio" data-id="${colegio.id_colegio || ''}"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-sm btn-danger delete-colegio" data-id="${colegio.id_colegio || ''}" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             `).join('');
@@ -305,13 +339,30 @@ function buscarColegios(buscar) {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const id = this.getAttribute('data-id');
-                    fetch(`detalle_colegio.php?id=${id}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('detalleContenido').innerHTML = data;
-                            new bootstrap.Modal(document.getElementById('detalleModal')).show();
-                        })
-                        .catch(error => console.error('Error en detalle colegio:', error));
+                    // Temporalmente comentado hasta que se implemente el endpoint
+                    // fetch(`/api/detalle_colegio?id=${id}`)
+                    //     .then(response => response.text())
+                    //     .then(data => {
+                    //         document.getElementById('detalleContenido').innerHTML = data;
+                    //         new bootstrap.Modal(document.getElementById('detalleModal')).show();
+                    //     })
+                    //     .catch(error => console.error('Error en detalle colegio:', error));
+                    alert(`Detalles de colegio ${id} (pendiente de implementar)`);
+                });
+            });
+            // Agregar eventos para editar y eliminar (pendiente de endpoints)
+            document.querySelectorAll('.edit-colegio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Editar colegio ${id} (pendiente de implementar)`);
+                });
+            });
+            document.querySelectorAll('.delete-colegio').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Eliminar colegio ${id} (pendiente de implementar)`);
                 });
             });
         })
@@ -335,7 +386,7 @@ function buscarSedes(buscar) {
         return;
     }
 
-    fetch(`./api/sedes.php?buscar=${encodeURIComponent(buscar)}`)
+    fetch(`/api/sedes?buscar=${encodeURIComponent(buscar)}`) // Actualizado de ./api/sedes.php a /api/sedes
         .then(response => {
             if (!response.ok) throw new Error('Error en la respuesta de la API: ' + response.status);
             return response.json();
@@ -355,8 +406,8 @@ function buscarSedes(buscar) {
                     <td><a href="#" class="text-decoration-none detalle-sede" data-id="${sede.id_sede || ''}">${sede.nombre || ''}</a></td>
                     <td>${sede.colegio || ''}</td>
                     <td>
-                        <a href="editar_sede.php?id=${sede.id_sede || ''}" class="btn btn-sm btn-warning"><i class="fas fa-edit"></i></a>
-                        <a href="eliminar_sede.php?id=${sede.id_sede || ''}" class="btn btn-sm btn-danger" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
+                        <a href="#" class="btn btn-sm btn-warning edit-sede" data-id="${sede.id_sede || ''}"><i class="fas fa-edit"></i></a>
+                        <a href="#" class="btn btn-sm btn-danger delete-sede" data-id="${sede.id_sede || ''}" onclick="return confirm('¿Seguro?');"><i class="fas fa-trash"></i></a>
                     </td>
                 </tr>
             `).join('');
@@ -365,13 +416,30 @@ function buscarSedes(buscar) {
                 link.addEventListener('click', function (e) {
                     e.preventDefault();
                     const id = this.getAttribute('data-id');
-                    fetch(`detalle_sede.php?id=${id}`)
-                        .then(response => response.text())
-                        .then(data => {
-                            document.getElementById('detalleContenido').innerHTML = data;
-                            new bootstrap.Modal(document.getElementById('detalleModal')).show();
-                        })
-                        .catch(error => console.error('Error en detalle sede:', error));
+                    // Temporalmente comentado hasta que se implemente el endpoint
+                    // fetch(`/api/detalle_sede?id=${id}`)
+                    //     .then(response => response.text())
+                    //     .then(data => {
+                    //         document.getElementById('detalleContenido').innerHTML = data;
+                    //         new bootstrap.Modal(document.getElementById('detalleModal')).show();
+                    //     })
+                    //     .catch(error => console.error('Error en detalle sede:', error));
+                    alert(`Detalles de sede ${id} (pendiente de implementar)`);
+                });
+            });
+            // Agregar eventos para editar y eliminar (pendiente de endpoints)
+            document.querySelectorAll('.edit-sede').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Editar sede ${id} (pendiente de implementar)`);
+                });
+            });
+            document.querySelectorAll('.delete-sede').forEach(link => {
+                link.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const id = this.getAttribute('data-id');
+                    alert(`Eliminar sede ${id} (pendiente de implementar)`);
                 });
             });
         })

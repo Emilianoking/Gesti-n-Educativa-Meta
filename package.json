@@ -1,0 +1,23 @@
+{
+  "name": "gestion_educativa",
+  "version": "1.0.0",
+  "description": "Un proyecto para organizar y gestionar la información educativa del departamento de Meta, Colombia.",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Emilianoking/Gestion-Educativa-Meta.git"
+  },
+  "keywords": ["educacion", "meta", "colombia", "gestion"],
+  "author": "Emilianoking",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/Emilianoking/Gestion-Educativa-Meta/issues"
+  },
+  "homepage": "https://github.com/Emilianoking/Gestion-Educativa-Meta#readme",
+  "dependencies": {
+    "pg": "^8.14.0"
+  }
+}

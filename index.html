@@ -49,7 +49,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="codigo_municipio" class="form-label">Código</label>
-                                        <input type="text" class="form-control" id="codigo_municipio" name="codigo_municipio" maxlength="3" required>
+                                        <input type="text" class="form-control" id="codigo_municipio" name="codigo_municipio" maxlength="5" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>
                                 </form>
@@ -63,7 +63,7 @@
                                 <!-- Formulario de búsqueda -->
                                 <form method="GET" class="mb-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="buscar_municipio" placeholder="Buscar por ID o Nombre">
+                                        <input type="text" class="form-control" id="buscar_municipio" name="buscar_municipio" placeholder="Buscar por ID o Nombre">
                                         <button class="btn btn-outline-secondary" type="button" id="btnBuscarMunicipio"><i class="fas fa-search"></i></button>
                                     </div>
                                 </form>
@@ -96,7 +96,7 @@
                                 <form action="agregar_colegio.php" method="POST">
                                     <div class="mb-3">
                                         <label for="id_municipio" class="form-label">Municipio</label>
-                                        <select class="form-select" id="municipios" name="id_municipio" required>
+                                        <select class="form-select" id="id_municipio" name="id_municipio" required>
                                             <!-- Las opciones se cargarán dinámicamente aquí -->
                                         </select>
                                     </div>
@@ -106,7 +106,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="codigo_colegio" class="form-label">Código</label>
-                                        <input type="text" class="form-control" id="codigo_colegio" name="codigo_colegio" maxlength="4" required>
+                                        <input type="text" class="form-control" id="codigo_colegio" name="codigo_colegio" maxlength="10" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>
                                 </form>
@@ -120,7 +120,7 @@
                                 <!-- Formulario de búsqueda -->
                                 <form method="GET" class="mb-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="buscar_colegio" placeholder="Buscar por ID o Nombre">
+                                        <input type="text" class="form-control" id="buscar_colegio" name="buscar_colegio" placeholder="Buscar por ID o Nombre">
                                         <button class="btn btn-outline-secondary" type="button" id="btnBuscarColegio"><i class="fas fa-search"></i></button>
                                     </div>
                                 </form>
@@ -154,7 +154,7 @@
                                 <form action="agregar_sede.php" method="POST">
                                     <div class="mb-3">
                                         <label for="id_colegio" class="form-label">Colegio</label>
-                                        <select class="form-select" id="colegios" name="id_colegio" required>
+                                        <select class="form-select" id="id_colegio" name="id_colegio" required>
                                             <!-- Las opciones se cargarán dinámicamente aquí -->
                                         </select>
                                     </div>
@@ -164,7 +164,7 @@
                                     </div>
                                     <div class="mb-3">
                                         <label for="codigo_sede" class="form-label">Código</label>
-                                        <input type="text" class="form-control" id="codigo_sede" name="codigo_sede" maxlength="2" required>
+                                        <input type="text" class="form-control" id="codigo_sede" name="codigo_sede" maxlength="15" required>
                                     </div>
                                     <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>
                                 </form>
@@ -178,7 +178,7 @@
                                 <!-- Formulario de búsqueda -->
                                 <form method="GET" class="mb-3">
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="buscar_sede" placeholder="Buscar por ID o Nombre">
+                                        <input type="text" class="form-control" id="buscar_sede" name="buscar_sede" placeholder="Buscar por ID o Nombre">
                                         <button class="btn btn-outline-secondary" type="button" id="btnBuscarSede"><i class="fas fa-search"></i></button>
                                     </div>
                                 </form>

@@ -13,7 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE sedes SET nombre = ?, id_colegio = ? WHERE id_sede = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt->execute([$nombre, $id_colegio, $id])) {
-        echo "<script>alert('Sede actualizada'); window.location='index.php';</script>";
+        echo "<script>alert('Sede actualizada'); window.location='index.html';</script>";
     } else {
         echo "Error: " . $conn->errorInfo()[2];
     }
@@ -50,7 +50,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" class="form-control" id="nombre_sede" name="nombre_sede" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
-            <a href="index.php" class="btn btn-secondary">Cancelar</a>
+            <a href="index.html" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </body>

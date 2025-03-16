@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE municipios SET nombre = ? WHERE id_municipio = ?";
     $stmt = $conn->prepare($sql);
     if ($stmt->execute([$nombre, $id])) {
-        echo "<script>alert('Municipio actualizado'); window.location='index.php';</script>";
+        echo "<script>alert('Municipio actualizado'); window.location='index.html';</script>";
     } else {
         echo "Error: " . $conn->errorInfo()[2];
     }
@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="text" class="form-control" id="nombre_municipio" name="nombre_municipio" value="<?php echo htmlspecialchars($row['nombre']); ?>" required>
             </div>
             <button type="submit" class="btn btn-primary">Guardar</button>
-            <a href="index.php" class="btn btn-secondary">Cancelar</a>
+            <a href="index.html" class="btn btn-secondary">Cancelar</a>
         </form>
     </div>
 </body>

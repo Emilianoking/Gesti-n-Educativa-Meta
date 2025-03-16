@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt->bindParam(':id_colegio', $id_colegio, PDO::PARAM_STR);
 
         if ($stmt->execute()) {
-            echo "<script>alert('Sede agregada con éxito'); window.location='index.php';</script>";
+            echo "<script>alert('Sede agregada con éxito'); window.location='index.html';</script>";
         } else {
             echo "Error: " . $stmt->errorInfo()[2];
         }

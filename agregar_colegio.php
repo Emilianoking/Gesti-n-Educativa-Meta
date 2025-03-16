@@ -14,7 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $stmt->bindParam(':id_municipio', $id_municipio, PDO::PARAM_STR);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Colegio agregado con éxito'); window.location='index.php';</script>";
+        echo "<script>alert('Colegio agregado con éxito'); window.location='index.html';</script>";
     } else {
         echo "Error: " . $stmt->errorInfo()[2];
     }

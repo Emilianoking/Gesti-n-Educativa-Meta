@@ -9,7 +9,7 @@ if (isset($_GET['id'])) {
     $stmt->bindParam(':id', $id, PDO::PARAM_INT);
 
     if ($stmt->execute()) {
-        echo "<script>alert('Sede eliminada'); window.location='index.php';</script>";
+        echo "<script>alert('Sede eliminada'); window.location='index.html';</script>";
     } else {
         echo "Error: No se pudo eliminar la sede.";
     }

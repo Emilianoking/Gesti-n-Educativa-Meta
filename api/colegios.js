@@ -1,6 +1,7 @@
 import { Pool } from 'pg';
 
 export default async function handler(req, res) {
+    console.log('Endpoint /api/colegios llamado con query:', req.query); // Depuración
     const pool = new Pool({
         user: 'junca12',
         host: 'svelte-vulture-7271.g8z.gcp-us-east1.cockroachlabs.cloud',
@@ -13,20 +14,18 @@ export default async function handler(req, res) {
 
     try {
         const client = await pool.connect();
-        let query = `
-            SELECT c.id_colegio, c.nombre, m.nombre AS municipio
-            FROM colegios c
-            JOIN municipios m ON c.id_municipio = m.id_municipio
-        `;
+        console.log('Conexión a la base de datos establecida'); // Depuración
+        let query = 'SELECT id_colegio, nombre, id_municipio FROM colegios';
         const values = [];
         if (req.query.buscar) {
             const buscar = `%${req.query.buscar}%`;
-            query += ' WHERE c.id_colegio LIKE $1 OR c.nombre ILIKE $1';
+            query += ' WHERE id_colegio LIKE $1 OR nombre ILIKE $1';
             values.push(buscar);
         }
         const result = await client.query(query, values);
         const colegios = result.rows;
         client.release();
+        console.log('Consulta exitosa, enviando datos:', colegios); // Depuración
         res.status(200).json(colegios);
     } catch (error) {
         console.error('Error al consultar la base de datos:', error);

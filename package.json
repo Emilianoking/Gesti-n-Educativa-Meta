@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Un proyecto para organizar y gestionar la información educativa del departamento de Meta, Colombia.",
   "scripts": {
-    "dev": "vercel dev"
+    "dev": "vercel dev",
+    "install": "npm install"
   },
   "repository": {
     "type": "git",

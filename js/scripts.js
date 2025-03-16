@@ -85,7 +85,7 @@ function cargarMunicipios() {
         return;
     }
 
-    fetch('/api/municipios')
+    fetch('../api/municipios.js')
         .then(response => {
             console.log('Estado de la respuesta:', response.status);
             console.log('Texto de la respuesta:', response.statusText);
@@ -134,7 +134,7 @@ function cargarTablaMunicipios() {
         return;
     }
 
-    fetch('/api/municipios')
+    fetch('../api/municipios.js')
         .then(response => {
             console.log('Estado de la respuesta:', response.status);
             console.log('Texto de la respuesta:', response.statusText);
